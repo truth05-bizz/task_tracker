@@ -1,0 +1,58 @@
+[
+    {
+        "title": "Git/Github",
+        "id": 1,
+        "description": "learning git and github to add to my tech skills",
+        "status": "pending",
+        "createdAt": "Mon May 18 13:18:56 2026",
+        "updated": "Sun May 24 21:33:04 2026"
+    },
+    {
+        "title": "learning python",
+        "id": 2,
+        "description": "python learning",
+        "status": "done",
+        "createdAt": "Mon May 18 13:25:17 2026",
+        "updated": "Fri May 22 21:43:05 2026"
+    },
+    {
+        "title": "studing",
+        "id": 3,
+        "description": "preparing for exams ",
+        "status": "done",
+        "createdAt": "Mon May 18 13:36:58 2026",
+        "updated": "Fri May 22 21:50:33 2026"
+    },
+    {
+        "title": "chores",
+        "id": 4,
+        "description": "clearning the kitchen",
+        "status": "done",
+        "createdAt": "Mon May 18 13:37:50 2026",
+        "updated": null
+    },
+    {
+        "title": "man city match",
+        "id": 5,
+        "description": "the match starts by 7:30pm",
+        "status": "done",
+        "createdAt": "Tue May 19 19:32:15 2026",
+        "updated": "Fri May 22 22:32:47 2026"
+    },
+    {
+        "title": "lock the exit gate",
+        "id": 6,
+        "description": "the exit gate should be lock by 6pm on a dot",
+        "status": "done",
+        "createdAt": "Wed May 20 20:43:58 2026",
+        "updated": null
+    },
+    {
+        "title": "Reading",
+        "id": 7,
+        "description": "complete the book \"the unstoppable business\" by yemi sonaike",
+        "status": "in progress",
+        "createdAt": "Sun May 24 21:25:18 2026",
+        "updated": null
+    }
+]

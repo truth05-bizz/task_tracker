@@ -1,0 +1,105 @@
+import taskFile
+import datetime
+import json
+import showTask
+import taskUtilities
+
+file_path = taskFile.file_path()
+file_name = taskFile.json_file()
+
+def add_task():
+    task_name = input('Enter task: ')
+    task_id = taskUtilities.task_id_settings()
+    task_description = input('Description: ')
+    task_status = input('Task status(Pending, In progress or Done): ')
+    task_createdAT = datetime.datetime.now()
+    task_updatedAT = None
+
+    new_task = {
+        'title': task_name,
+        'id': task_id,
+        'description': task_description,
+        'status': task_status,
+        'createdAt': task_createdAT.strftime('%c'),
+        'updated': task_updatedAT,
+    }
+
+
+    if file_path.exists():
+        try:
+            with open(file_name, 'r') as f:
+                task_data = json.load(f)
+                if not isinstance(task_data, list):
+                    # keeping old data if file has data before the conversion
+                    old_data = task_data
+                    task_data = []
+                    task_data.append(old_data)
+
+        except (json.JSONDecodeError, ValueError):
+            """
+            Upcoming update
+
+            - Backup corrupt file to still retain old data
+            rather than formatting the whole file.
+            """
+            task_data = []
+
+    else:
+        task_data = []
+
+    task_data.append(new_task)
+
+    with open(file_name, 'w') as f:
+        json.dump(task_data, f, indent=4)
+
+    print('Task added.')
+
+
+def update_task():
+    lst_task = showTask.show_task_title()
+    if file_path.exists():
+        try:
+            with open(file_name, 'r') as file:
+                task_data = json.load(file)
+        except (json.JSONDecodeError, ValueError):
+            print('file does not exits/corrupt file')
+
+    print()
+    user_prompt = input('Enter a task to update: ') .lower() .strip()
+    print()
+    for data in task_data:
+        if user_prompt == data['title']:
+            data
+            # formatted task data for user frienly view
+            print(f"Title: {data['title']}")
+            print(f"id: {data['id']} Not updateable")
+            print(f"Description: {data['description']}")
+            print(f"Status: {data['status']}")
+            print(f"Date/Time created: {data['createdAt']} Not updateable")
+            if not data['updated']:
+                print('No update has been made yet.')
+            else:
+                print(f"Date/time updated: {data['updated']}")
+
+            # user input for new task update
+            title_update = input('Enter a new title: ')
+            status_update = input('Enter status(pending, in progress, done): ')
+            description_update = input('Enter task description: ')
+            date_updated = datetime.datetime.now()
+
+            old_task = data # stores old task (might be use if a feature for seeing old update is requested by the user)
+            print()
+           # updating json file to have new data correction   
+
+            data['title'] = title_update
+            data['status'] = status_update
+            data['description'] = description_update
+            data['updated'] = date_updated.strftime('%c')
+
+    with open(file_name, 'w') as file:
+        json.dump(task_data, file, indent= 4)
+        
+    print('file updated successfully')
+
+def delete_task():
+    pass
