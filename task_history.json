@@ -32,14 +32,6 @@
         "updated": null
     },
     {
-        "title": "man city match",
-        "id": 5,
-        "description": "the match starts by 7:30pm",
-        "status": "done",
-        "createdAt": "Tue May 19 19:32:15 2026",
-        "updated": "Fri May 22 22:32:47 2026"
-    },
-    {
         "title": "lock the exit gate",
         "id": 6,
         "description": "the exit gate should be lock by 6pm on a dot",

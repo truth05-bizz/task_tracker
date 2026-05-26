@@ -24,7 +24,9 @@ def menu():
     print('- Show all task.')
     print('- Add task. ')
     print('- update task. ')
+    print('- delete task. ')
     print()
+
     user_prompt = input('>>> ') .lower() .strip()
     if user_prompt == 'show all task':
         x = showTask
@@ -39,6 +41,9 @@ def menu():
         pass
     elif user_prompt == 'see task in progress':
         pass
+    elif user_prompt == 'delete task':
+        a = task
+        a.delete_task()
 
 
 menu()

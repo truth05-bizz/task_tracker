@@ -102,4 +102,20 @@ def update_task():
     print('file updated successfully')
 
 def delete_task():
-    pass
+    try:
+        with open(file_name, 'r') as f:
+            task_data = json.load(f)
+
+    except (FileNotFoundError, json.JSONDecodeError):
+        print('No valid task found; aborting.')
+        return
+    
+    task_lst = showTask.show_task_title()
+    print()
+    user_prompt = input('Enter task to delete: ')
+    for task in task_data:
+        if task['title'] == user_prompt:
+            task_data.remove(task)
+
+    with open(file_name, 'w') as f:
+        json.dump(task_data, f, indent=4)
