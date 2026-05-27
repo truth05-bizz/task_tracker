@@ -9,7 +9,7 @@ file_name = taskFile.json_file()
 
 def add_task():
     task_name = input('Enter task: ')
-    task_id = taskUtilities.task_id_settings()
+    task_id = taskUtilities.task_id_settings(0)
     task_description = input('Description: ')
     task_status = input('Task status(Pending, In progress or Done): ')
     task_createdAT = datetime.datetime.now()
@@ -113,9 +113,19 @@ def delete_task():
     task_lst = showTask.show_task_title()
     print()
     user_prompt = input('Enter task to delete: ')
-    for task in task_data:
-        if task['title'] == user_prompt:
-            task_data.remove(task)
+    print(f"Are you sure you want to delete '{user_prompt}'")
+    print('y/n...')
+    user_input = input('>>> ') .lower() .strip()
+    if user_input == 'y':
+        for task in task_data:
+            if task['title'] == user_prompt:
+                task_data.remove(task)
 
-    with open(file_name, 'w') as f:
-        json.dump(task_data, f, indent=4)
+    elif user_input == 'n':
+        print('Aborted.')
+        return
+    
+    taskUtilities.task_id_settings(task_data) 
+    
+
+    print(f"TASK:[{user_prompt}] deleted successfully")

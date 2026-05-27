@@ -16,35 +16,51 @@
         "updated": "Fri May 22 21:43:05 2026"
     },
     {
-        "title": "studing",
-        "id": 3,
-        "description": "preparing for exams ",
-        "status": "done",
-        "createdAt": "Mon May 18 13:36:58 2026",
-        "updated": "Fri May 22 21:50:33 2026"
-    },
-    {
-        "title": "chores",
-        "id": 4,
-        "description": "clearning the kitchen",
-        "status": "done",
-        "createdAt": "Mon May 18 13:37:50 2026",
-        "updated": null
-    },
-    {
-        "title": "lock the exit gate",
-        "id": 6,
-        "description": "the exit gate should be lock by 6pm on a dot",
-        "status": "done",
-        "createdAt": "Wed May 20 20:43:58 2026",
-        "updated": null
-    },
-    {
         "title": "Reading",
         "id": 7,
         "description": "complete the book \"the unstoppable business\" by yemi sonaike",
         "status": "in progress",
         "createdAt": "Sun May 24 21:25:18 2026",
+        "updated": null
+    },
+    {
+        "title": "fix a bug",
+        "id": 7,
+        "description": "done keeps printing on my terminal when the first input for 'add task' is inputted. and the 'task id' is a mess it does not update if a task is remove leaving an incorrect 'Task id'",
+        "status": "in progress",
+        "createdAt": "Wed May 27 20:31:14 2026",
+        "updated": null
+    },
+    {
+        "title": "coding",
+        "id": 7,
+        "description": "code at least 30 min a day",
+        "status": "in progress",
+        "createdAt": "Wed May 27 20:35:29 2026",
+        "updated": null
+    },
+    {
+        "title": "drawing",
+        "id": 7,
+        "description": "learning how to draw",
+        "status": "pending",
+        "createdAt": "Wed May 27 20:37:18 2026",
+        "updated": null
+    },
+    {
+        "title": "asdf",
+        "id": 8,
+        "description": "gfahgrgjarparg",
+        "status": "done",
+        "createdAt": "Wed May 27 20:45:24 2026",
+        "updated": null
+    },
+    {
+        "title": "qwer",
+        "id": 9,
+        "description": "fghoghjg",
+        "status": "done",
+        "createdAt": "Wed May 27 20:54:11 2026",
         "updated": null
     }
 ]
