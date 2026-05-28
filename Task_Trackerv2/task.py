@@ -9,7 +9,7 @@ file_name = taskFile.json_file()
 
 def add_task():
     task_name = input('Enter task: ')
-    task_id = taskUtilities.task_id_settings(0)
+    task_id = len(taskUtilities.read_file()) +1
     task_description = input('Description: ')
     task_status = input('Task status(Pending, In progress or Done): ')
     task_createdAT = datetime.datetime.now()
@@ -72,14 +72,24 @@ def update_task():
             data
             # formatted task data for user frienly view
             print(f"Title: {data['title']}")
+            print('--------------------------------')
             print(f"id: {data['id']} Not updateable")
+            print('--------------------------------')
             print(f"Description: {data['description']}")
+            print('--------------------------------')
             print(f"Status: {data['status']}")
+            print('--------------------------------')
             print(f"Date/Time created: {data['createdAt']} Not updateable")
+            print()
             if not data['updated']:
-                print('No update has been made yet.')
+                print('---No update has been made yet---.')
             else:
                 print(f"Date/time updated: {data['updated']}")
+
+            # default task value
+            default_title = data['title']
+            default_status = data['status']
+            default_description = data['description']
 
             # user input for new task update
             title_update = input('Enter a new title: ')
@@ -90,10 +100,18 @@ def update_task():
             old_task = data # stores old task (might be use if a feature for seeing old update is requested by the user)
             print()
            # updating json file to have new data correction   
-
-            data['title'] = title_update
-            data['status'] = status_update
-            data['description'] = description_update
+            if title_update == '':
+                data['title'] = default_title
+            else:
+                data['title'] = title_update
+            if status_update == '':
+                data['status'] = default_status
+            else:
+                data['status'] = status_update
+            if description_update == '':
+                data['description'] = default_description
+            else:
+                data['description'] = description_update
             data['updated'] = date_updated.strftime('%c')
 
     with open(file_name, 'w') as file:
