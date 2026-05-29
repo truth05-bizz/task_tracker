@@ -3,6 +3,7 @@ from pathlib import Path
 import showTask
 import task
 import taskFile
+import taskStatus
 
 # Requirements :
 
@@ -25,26 +26,26 @@ def menu():
     print('- Add task. ')
     print('- update task. ')
     print('- delete task. ')
+    print('- undone task. ')
+    print('- task in progress. ')
     print()
 
     user_prompt = input('>>> ') .lower() .strip()
     if user_prompt == 'show all task':
-        x = showTask
-        x.all_task()
+        showTask.all_task()       
     elif user_prompt == 'add task':
-        y = task
-        y.add_task()
+        task.add_task()
     elif user_prompt == 'update task':
-        z = task
-        z.update_task()
-    elif user_prompt == 'see undone task':
-        pass
-    elif user_prompt == 'see task in progress':
-        pass
+        task.update_task()
+    elif user_prompt == 'undone task':
+        taskStatus.all_undone_task()
+    elif user_prompt == 'task in progress':
+        taskStatus.all_task_inprogress()
+    elif user_prompt == 'done task':
+        taskStatus.done_task()
     elif user_prompt == 'delete task':
-        a = task
-        a.delete_task()
-
+        task.delete_task()
+    
 
 menu()
 

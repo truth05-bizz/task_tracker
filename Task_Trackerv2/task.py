@@ -3,15 +3,17 @@ import datetime
 import json
 import showTask
 import taskUtilities
+import taskStatus
 
 file_path = taskFile.file_path()
 file_name = taskFile.json_file()
 
 def add_task():
+
     task_name = input('Enter task: ')
     task_id = len(taskUtilities.read_file()) +1
     task_description = input('Description: ')
-    task_status = input('Task status(Pending, In progress or Done): ')
+    task_status = taskStatus.get_status()
     task_createdAT = datetime.datetime.now()
     task_updatedAT = None
 
@@ -25,27 +27,7 @@ def add_task():
     }
 
 
-    if file_path.exists():
-        try:
-            with open(file_name, 'r') as f:
-                task_data = json.load(f)
-                if not isinstance(task_data, list):
-                    # keeping old data if file has data before the conversion
-                    old_data = task_data
-                    task_data = []
-                    task_data.append(old_data)
-
-        except (json.JSONDecodeError, ValueError):
-            """
-            Upcoming update
-
-            - Backup corrupt file to still retain old data
-            rather than formatting the whole file.
-            """
-            task_data = []
-
-    else:
-        task_data = []
+    task_data = taskUtilities.read_file()
 
     task_data.append(new_task)
 
@@ -57,12 +39,7 @@ def add_task():
 
 def update_task():
     lst_task = showTask.show_task_title()
-    if file_path.exists():
-        try:
-            with open(file_name, 'r') as file:
-                task_data = json.load(file)
-        except (json.JSONDecodeError, ValueError):
-            print('file does not exits/corrupt file')
+    task_data = taskUtilities.read_file()
 
     print()
     user_prompt = input('Enter a task to update: ') .lower() .strip()
@@ -114,21 +91,16 @@ def update_task():
                 data['description'] = description_update
             data['updated'] = date_updated.strftime('%c')
 
-    with open(file_name, 'w') as file:
-        json.dump(task_data, file, indent= 4)
+    taskUtilities.write_to_file(task_data)
         
     print('file updated successfully')
 
 def delete_task():
-    try:
-        with open(file_name, 'r') as f:
-            task_data = json.load(f)
-
-    except (FileNotFoundError, json.JSONDecodeError):
-        print('No valid task found; aborting.')
-        return
+    task_data = taskUtilities.read_file()
     
-    task_lst = showTask.show_task_title()
+    # show task list 
+    showTask.show_task_title()
+
     print()
     user_prompt = input('Enter task to delete: ')
     print(f"Are you sure you want to delete '{user_prompt}'")
