@@ -26,9 +26,10 @@ def done_task():
     for task in task_data:
         if task['status'] == 'done':
             print(task)
+            found = True
     
-        else:
-            print('No task has been done yet.')
+    if not found:
+        print('No task has been done yet.')
 
 def get_status():
     allowed_stat = ['pending', 'in progress', 'done']
