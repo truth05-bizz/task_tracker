@@ -16,12 +16,12 @@
         "updated": "Fri May 22 21:43:05 2026"
     },
     {
-        "title": "Reading",
+        "title": "reading",
         "id": 3,
-        "description": "complete the book \"the unstoppable business\" by yemi sonaike",
+        "description": "complete the book the unstoppable business by yemi sonaike",
         "status": "in progress",
         "createdAt": "Sun May 24 21:25:18 2026",
-        "updated": null
+        "updated": "Sun May 31 16:35:42 2026"
     },
     {
         "title": "fix a bug",
@@ -37,7 +37,7 @@
         "description": "code at least 30 min a day",
         "status": "in progress",
         "createdAt": "Wed May 27 20:35:29 2026",
-        "updated": null
+        "updated": "Sun May 31 16:31:36 2026"
     },
     {
         "title": "drawing",

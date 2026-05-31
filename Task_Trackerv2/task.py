@@ -46,22 +46,9 @@ def update_task():
     print()
     for data in task_data:
         if user_prompt == data['title']:
-            data
+
             # formatted task data for user frienly view
-            print(f"Title: {data['title']}")
-            print('--------------------------------')
-            print(f"id: {data['id']} Not updateable")
-            print('--------------------------------')
-            print(f"Description: {data['description']}")
-            print('--------------------------------')
-            print(f"Status: {data['status']}")
-            print('--------------------------------')
-            print(f"Date/Time created: {data['createdAt']} Not updateable")
-            print()
-            if not data['updated']:
-                print('---No update has been made yet---.')
-            else:
-                print(f"Date/time updated: {data['updated']}")
+            taskUtilities.formatted_task_data(data)
 
             # default task value
             default_title = data['title']

@@ -11,15 +11,16 @@ def read_file():
         try:
             with open(json_task_file, 'r') as f:
                 task_data = json.load(f)
+
+                # safely check and correct file type
                 if not isinstance(task_data, list):
                     task_data = []
-                    print('No task in task list.')
+                    # print('No task in task list.') - to spot where issue/error was generated from (for debugging)
 
             
         except (FileNotFoundError, json.JSONDecodeError):
             task_data = []
-            file_error = 'No valid task file found; aborting.'
-            return file_error
+    
     
     else:
         task_data = []
@@ -44,7 +45,6 @@ def task_id_settings(fetch_data):
     return
 
 def formatted_task_data(data):
-    print()
     print('--------------------------------------')
     print(f"Task name: {data['title']}")
     print(f"Task id: {data['id']}")
@@ -56,6 +56,7 @@ def formatted_task_data(data):
     else:
         print(f"Date updated: {data['updated']}")
     print('--------------------------------------')
+    print()
 
 def empty_json():
     task_data = read_file()

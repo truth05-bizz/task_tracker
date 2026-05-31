@@ -17,7 +17,7 @@ import taskStatus
 file_name = taskFile.json_file()
 file_path = taskFile.file_path()
 
-def menu():
+def main_menu():
     # program (task tracker), navigation menu
     print('Welcome to Task Tracker v2')
     print('----------MENU----------')
@@ -45,7 +45,23 @@ def menu():
         taskStatus.done_task()
     elif user_prompt == 'delete task':
         task.delete_task()
+    elif user_prompt in ('quit', 'exit'):
+        return False
     
+    return True
 
-menu()
+def sub_menu():
+    user_promt = input('Go back to menu(y/n): ').strip() .lower()
+    if user_promt == 'y':
+        pass
 
+
+def main():
+    while True:
+        if not main_menu():
+            print('Goodbye!')
+            break
+
+
+    
+main()

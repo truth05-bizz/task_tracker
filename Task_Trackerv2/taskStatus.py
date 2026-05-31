@@ -8,9 +8,10 @@ def all_undone_task():
     for task in task_data:
         if task['status'] in task_status:
             taskUtilities.formatted_task_data(task)
+            found = True
 
-        else:
-            print('No task found.')
+    if not found:
+        print('No task found.')
         
 
 def all_task_inprogress():
@@ -18,8 +19,10 @@ def all_task_inprogress():
     for task in task_data:
         if task['status'] == 'in progress':
             taskUtilities.formatted_task_data(task)
-        else:
-            print('No task in progress')
+            found = True
+
+    if not found:
+        print('No task in progress')
 
 def done_task():
     task_data = taskUtilities.read_file()
