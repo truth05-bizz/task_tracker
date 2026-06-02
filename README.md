@@ -4,7 +4,8 @@ A command-line task management application built with Python.
 
 This repository documents my journey from planning a project to building a modular Python application. The project evolved through two versions, with each version serving a different purpose.
 
-**Project URL:** [https://github.com/truth05-bizz/task_tracker](https://github.com/truth05-bizz/task_tracker)
+**Project URL:** [https://github.com/truth05-bizz/task_tracker](https://github.com/truth05-bizz/task_tracker),
+https://roadmap.sh/projects/task-tracker
 
 ---
 
