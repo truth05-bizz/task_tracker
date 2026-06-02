@@ -10,6 +10,8 @@ This repository documents my journey from planning a project to building a modul
 
 ### Task Tracker v1
 
+[https://github.com/truth05-bizz/task_tracker/blob/main/Task_Tracker%20v1/main.py]
+
 The first version of the project.
 
 This version was primarily used as a planning and development guide. It contains the initial project structure, ideas, and function breakdowns that helped define the requirements for the application.
@@ -23,6 +25,8 @@ Its purpose was to answer questions such as:
 ---
 
 ### Task Tracker v2
+
+[https://github.com/truth05-bizz/task_tracker/tree/main/Task_Trackerv2]
 
 The main implementation of the project.
 
