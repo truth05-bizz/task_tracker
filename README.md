@@ -2,13 +2,13 @@
 
 A command-line task management application built with Python.
 
-This repository documents my journey from planning a project to building a modular Python application. The project evolved through two versions, with each version serving a different purpose in the learning process.
+This repository documents my journey from planning a project to building a modular Python application. The project evolved through two versions, with each version serving a different purpose in the development process.
 
 ---
 
 ## Project Versions
 
-### Task Tracker v2
+### Task Tracker v1
 
 ## Project Repository
 https://github.com/truth05-bizz/task_tracker
@@ -124,11 +124,11 @@ Task Tracker v2 is currently the primary focus of development and serves as a pr
 
 Demo / Walkthrough:
 
-[(https://github.com/truth05-bizz/task_tracker/blob/main/Task_Trackerv2/HOW_TO_RUN.md)]
+[HOW_TO_RUN.md](https://github.com/truth05-bizz/task_tracker/blob/main/Task_Trackerv2/HOW_TO_RUN.md)
 
 Repository:
 
-[(https://github.com/truth05-bizz/task_tracker)]
+[GitHub Repository](https://github.com/truth05-bizz/task_tracker)
 
 ---
 
