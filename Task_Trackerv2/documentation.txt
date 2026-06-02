@@ -1,0 +1,547 @@
+================================================================================
+         TASK TRACKER V2 - TECHNICAL DOCUMENTATION
+================================================================================
+
+Project: Task Tracker v2
+Author: Truth
+Date: June 2, 2026
+Repository: https://github.com/truth05-bizz/task_tracker
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+
+1. Architecture Overview
+2. Module Dependencies
+3. Data Structure
+4. Workflow Processes
+5. Code Flow
+6. Error Handling
+7. File Operations
+8. Design Patterns Used
+9. Performance Considerations
+10. Testing Notes
+11. Future Enhancement Ideas
+12. Known Issues & Limitations
+
+================================================================================
+1. ARCHITECTURE OVERVIEW
+================================================================================
+
+Task Tracker v2 follows a modular architecture that separates concerns:
+
+LAYERS:
+├── Presentation Layer (main.py)
+│   └── User Interface & Menu System
+├── Business Logic Layer (task.py, taskStatus.py)
+│   └── CRUD Operations & Status Management
+├── Data Access Layer (taskUtilities.py)
+│   └── Read/Write Operations
+└── Infrastructure Layer (taskFile.py)
+    └── File Path Configuration
+
+SEPARATION OF CONCERNS:
+- main.py: Menu navigation and user input routing
+- task.py: Core CRUD operations for tasks
+- showTask.py: Display/View operations
+- taskStatus.py: Status-related filtering and validation
+- taskUtilities.py: Shared utility functions
+- taskFile.py: File configuration
+
+This design allows easy testing, maintenance, and future enhancements.
+
+================================================================================
+2. MODULE DEPENDENCIES
+================================================================================
+
+DEPENDENCY GRAPH:
+                    main.py
+                      |
+        +-------+-------+-------+-------+
+        |       |       |       |       |
+      task.py  showTask.py  taskStatus.py  (imports above)
+        |       |       |       |
+        +-------+-------+-------+
+                |
+        taskUtilities.py
+                |
+        taskFile.py
+                |
+            pathlib
+            json
+            datetime
+
+IMPORT HIERARCHY:
+- taskUtilities.py: taskFile, pathlib, json
+- taskFile.py: pathlib
+- task.py: taskFile, datetime, json, showTask, taskUtilities, taskStatus
+- showTask.py: json, taskUtilities
+- taskStatus.py: taskUtilities
+- main.py: json, pathlib, showTask, task, taskFile, taskStatus
+
+CIRCULAR DEPENDENCIES: None (Good design!)
+
+================================================================================
+3. DATA STRUCTURE
+================================================================================
+
+PRIMARY DATA STRUCTURE: JSON Array of Task Objects
+
+TASK OBJECT SCHEMA:
+{
+    "title": str,           # Task name/title
+    "id": int,              # Unique sequential identifier (1-n)
+    "description": str,     # Detailed task description
+    "status": str,          # One of: "pending", "in progress", "done"
+    "createdAt": str,       # ISO timestamp when task was created
+    "updated": str|null     # ISO timestamp of last update (null if never updated)
+}
+
+EXAMPLE TASK:
+{
+    "title": "Complete project report",
+    "id": 1,
+    "description": "Finish the quarterly report",
+    "status": "in progress",
+    "createdAt": "Mon Jun  2 14:30:45 2026",
+    "updated": "Mon Jun  2 14:35:12 2026"
+}
+
+ALLOWED STATUS VALUES:
+- "pending": Task has not been started
+- "in progress": Currently working on the task
+- "done": Task is completed
+
+STORAGE FORMAT: JSON Array
+tasks = [
+    { task1 },
+    { task2 },
+    { task3 }
+]
+
+FILE LOCATION: task_history.json (in Task_Trackerv2 directory)
+
+================================================================================
+4. WORKFLOW PROCESSES
+================================================================================
+
+WORKFLOW 1: ADD TASK
+┌────────────────────────────────────────────────┐
+│ 1. User selects "add task"                     │
+│ 2. Input task title                            │
+│ 3. Input task description                      │
+│ 4. Validate and get task status                │
+│ 5. Create new task object                      │
+│ 6. Read current task_history.json              │
+│ 7. Append new task to list                     │
+│ 8. Write updated list back to file             │
+│ 9. Confirm "Task added."                       │
+└────────────────────────────────────────────────┘
+
+WORKFLOW 2: UPDATE TASK
+┌────────────────────────────────────────────────┐
+│ 1. User selects "update task"                  │
+│ 2. Display all task titles                     │
+│ 3. User enters task name to update             │
+│ 4. Find task by title                          │
+│ 5. Display current task details                │
+│ 6. Request new title, status, description      │
+│ 7. Update only non-empty fields                │
+│ 8. Update timestamp                            │
+│ 9. Write back to file                          │
+│ 10. Confirm "file updated successfully"        │
+└────────────────────────────────────────────────┘
+
+WORKFLOW 3: DELETE TASK
+┌────────────────────────────────────────────────┐
+│ 1. User selects "delete task"                  │
+│ 2. Display all task titles                     │
+│ 3. User enters task name to delete             │
+│ 4. Request confirmation (y/n)                  │
+│ 5. If confirmed:                               │
+│    - Remove task from list                     │
+│    - Recalculate task IDs (1, 2, 3...)        │
+│    - Write updated list to file                │
+│    - Confirm deletion                          │
+│ 6. If not confirmed:                           │
+│    - Abort and return to menu                  │
+└────────────────────────────────────────────────┘
+
+WORKFLOW 4: VIEW/FILTER TASKS
+┌────────────────────────────────────────────────┐
+│ 1. User selects view option                    │
+│ 2. Read task_history.json                      │
+│ 3. Filter by criteria:                         │
+│    - All tasks (no filter)                     │
+│    - Undone: status in ["pending", "in progress"]
+│    - In Progress: status == "in progress"      │
+│    - Done: status == "done"                    │
+│ 4. For filtered results:                       │
+│    - Display formatted task data               │
+│    - Show title, ID, status, description, dates
+└────────────────────────────────────────────────┘
+
+================================================================================
+5. CODE FLOW
+================================================================================
+
+APPLICATION FLOW:
+
+main.py::main()
+    ├── Initialize welcome message
+    └── LOOP: while True
+        ├── Call main_menu()
+        ├── Display menu options
+        ├── Get user input (lowercase, stripped)
+        ├── Route to appropriate function:
+        │   ├── "show all task" → showTask.all_task()
+        │   ├── "add task" → task.add_task()
+        │   ├── "update task" → task.update_task()
+        │   ├── "delete task" → task.delete_task()
+        │   ├── "undone task" → taskStatus.all_undone_task()
+        │   ├── "task in progress" → taskStatus.all_task_inprogress()
+        │   ├── "done task" → taskStatus.done_task()
+        │   └── "quit"/"exit" → return False (exit loop)
+        └── If False returned → print "Goodbye!" and break
+
+KEY FUNCTIONS CALL SEQUENCE:
+
+task.add_task()
+    ├── Get user inputs
+    ├── taskStatus.get_status() → validate status
+    ├── datetime.datetime.now() → get timestamp
+    ├── taskUtilities.read_file() → read existing tasks
+    ├── Append new task
+    └── taskUtilities.write_to_file() → save all tasks
+
+showTask.all_task()
+    ├── showTask.show_task_title() → get task list
+    ├── If tasks exist:
+    │   ├── Get user input (task name)
+    │   ├── Find matching task
+    │   └── taskUtilities.formatted_task_data() → display details
+    └── Else: show "No task created yet"
+
+================================================================================
+6. ERROR HANDLING
+================================================================================
+
+CURRENT ERROR HANDLING:
+
+1. FILE NOT FOUND (taskUtilities.read_file):
+   - If task_history.json doesn't exist
+   - Returns empty list []
+   - File will be created on first write
+
+2. JSON DECODE ERROR (taskUtilities.read_file):
+   - If file contains invalid JSON
+   - Catches json.JSONDecodeError
+   - Returns empty list []
+
+3. INVALID STATUS INPUT (taskStatus.get_status):
+   - Validates against ["pending", "in progress", "done"]
+   - Prompts user to re-enter if invalid
+   - Loops until valid input
+
+4. TYPE VALIDATION (taskUtilities.read_file):
+   - Checks if loaded data is a list
+   - Converts to empty list if not
+   - Ensures data structure integrity
+
+5. TASK NOT FOUND:
+   - In showTask.all_task(): "Task not found!"
+   - In task.update_task(): Function silently continues
+   - In task.delete_task(): Function silently continues
+
+MISSING ERROR HANDLING (POTENTIAL IMPROVEMENTS):
+- No validation for empty task title/description
+- No check for duplicate task titles
+- No file permission error handling
+- No disk space error handling
+- No Unicode/encoding error handling
+- Exception messages could be more specific
+
+================================================================================
+7. FILE OPERATIONS
+================================================================================
+
+FILE: task_history.json
+LOCATION: Task_Trackerv2/ directory
+FORMAT: JSON Array
+ENCODING: UTF-8 (default)
+SIZE: Grows with number of tasks (~200 bytes per task average)
+
+READ OPERATIONS:
+- Function: taskUtilities.read_file()
+- Method: json.load() from open file handle
+- Returns: List of task dictionaries
+- Error Handling: FileNotFoundError, JSONDecodeError → return []
+
+WRITE OPERATIONS:
+- Function: taskUtilities.write_to_file(data)
+- Method: json.dump() with indent=4 (pretty print)
+- Input: List of task dictionaries
+- Overwrites entire file
+- No append mode (full rewrite each time)
+
+PATH HANDLING:
+- Function: taskFile.file_path()
+- Method: pathlib.Path('task_history.json')
+- Returns: Path object
+- Relative to script directory
+
+FILE LIFECYCLE:
+1. First Run: File doesn't exist
+2. First Add: File is created with first task
+3. Read/Write: Continuous read-modify-write cycle
+4. Delete: File updated with remaining tasks
+5. Exit: File remains persistent
+
+PERFORMANCE NOTES:
+- Full file rewrite on every modification (not optimal for large datasets)
+- Single file - no partitioning or indexing
+- JSON parsing/serialization on every operation
+
+================================================================================
+8. DESIGN PATTERNS USED
+================================================================================
+
+1. SEPARATION OF CONCERNS
+   - Each module has single responsibility
+   - UI separated from business logic
+   - Data access separated from operations
+
+2. REPOSITORY PATTERN
+   - taskUtilities.py acts as data repository
+   - All file access goes through read_file()/write_to_file()
+   - Central point for data access
+
+3. UTILITY/HELPER PATTERN
+   - taskUtilities.py provides shared functions
+   - taskFile.py provides configuration
+   - Reduces code duplication
+
+4. FILTER/QUERY PATTERN
+   - taskStatus.py applies filters to data
+   - Filtering logic separated from display
+   - Easy to add new filters
+
+5. DELEGATION PATTERN
+   - main.py delegates to appropriate modules
+   - Each module handles its domain
+   - Reduces main.py complexity
+
+ARCHITECTURAL PRINCIPLES FOLLOWED:
+✓ DRY (Don't Repeat Yourself) - Utilities module
+✓ SRP (Single Responsibility) - Each module has one purpose
+✓ Low Coupling - Modules are loosely connected
+✓ High Cohesion - Related functionality grouped
+✗ SOLID (partially - could improve with more abstraction)
+
+================================================================================
+9. PERFORMANCE CONSIDERATIONS
+================================================================================
+
+CURRENT PERFORMANCE CHARACTERISTICS:
+
+Time Complexity:
+- Read All Tasks: O(n) - must read entire file
+- Add Task: O(n) - must read, modify, rewrite all
+- Update Task: O(n) - linear search + rewrite
+- Delete Task: O(n) - linear search + ID recalculation
+- Filter Tasks: O(n) - must iterate all tasks
+
+Space Complexity:
+- Memory: O(n) - entire task list in memory
+- Storage: O(n) - one file with all tasks
+
+BOTTLENECKS:
+1. Full file rewrite on every operation
+2. Linear search for task lookups
+3. No indexing or caching
+4. JSON parsing on every operation
+
+OPTIMIZATION OPPORTUNITIES:
+- Use SQLite for better query performance
+- Implement caching for frequently accessed data
+- Use binary search (if tasks sorted)
+- Implement update/patch operations instead of full rewrites
+- Add database indexing
+- Lazy load task details
+
+CURRENT LIMITS:
+- Acceptable performance for < 1000 tasks
+- Response time degrades as task count increases
+- Multiple rapid operations may cause race conditions
+- No concurrent access protection
+
+================================================================================
+10. TESTING NOTES
+================================================================================
+
+MANUAL TESTING CHECKLIST:
+
+BASIC FUNCTIONALITY:
+[ ] Application starts without errors
+[ ] Welcome menu displays correctly
+[ ] Menu accepts all valid commands
+[ ] Invalid commands show no effect
+
+ADD TASK:
+[ ] Can add task with title and description
+[ ] Status validation works correctly
+[ ] Task is saved to file
+[ ] Task ID increments correctly
+
+UPDATE TASK:
+[ ] Can find and update existing task
+[ ] Can skip fields by pressing Enter
+[ ] Updated timestamp changes
+[ ] Changes are saved to file
+
+DELETE TASK:
+[ ] Confirmation prompt appears
+[ ] Canceling (n) aborts deletion
+[ ] Confirming (y) removes task
+[ ] Task IDs are recalculated
+
+VIEW TASKS:
+[ ] Show all tasks displays all tasks
+[ ] Undone tasks shows pending + in progress
+[ ] In progress shows only in progress
+[ ] Done tasks shows only done
+[ ] Task details display correctly
+
+EDGE CASES:
+[ ] Empty task list shows proper message
+[ ] Very long task titles/descriptions handled
+[ ] Special characters in text handled
+[ ] Duplicate task names allowed (by design)
+[ ] Case insensitive input works
+
+ERROR RECOVERY:
+[ ] Corrupted JSON file handled gracefully
+[ ] Missing file creates new one
+[ ] Invalid status forces re-entry
+[ ] Non-existent task doesn't crash app
+
+UNIT TESTING RECOMMENDATIONS:
+- Test taskUtilities.read_file() with various inputs
+- Test taskUtilities.write_to_file() writes valid JSON
+- Test taskStatus.get_status() validation
+- Test taskUtilities.task_id_settings() ID recalculation
+- Mock file operations for isolation
+
+================================================================================
+11. FUTURE ENHANCEMENT IDEAS
+================================================================================
+
+IMMEDIATE IMPROVEMENTS (v2.1):
+- [ ] Input validation for empty fields
+- [ ] Duplicate task title detection
+- [ ] Better error messages for file operations
+- [ ] Task search/filter by keyword
+- [ ] Display task count statistics
+
+SHORT-TERM ENHANCEMENTS (v2.2):
+- [ ] Task priority levels (Low, Medium, High)
+- [ ] Due dates and deadline tracking
+- [ ] Task categories/tags
+- [ ] Recurring tasks (daily, weekly, monthly)
+- [ ] Mark multiple tasks at once
+- [ ] Sort tasks by date, priority, status
+
+MEDIUM-TERM FEATURES (v3.0):
+- [ ] SQLite database backend
+- [ ] CLI arguments for batch operations
+- [ ] Task history/changelog (see previous versions)
+- [ ] Task dependencies (Task A must complete before B)
+- [ ] Export to CSV/JSON/PDF
+- [ ] Import from other task managers
+- [ ] Configuration file (custom themes, defaults)
+
+LONG-TERM GOALS (Future Versions):
+- [ ] GUI application (PyQt, Tkinter)
+- [ ] Web interface (Flask, Django)
+- [ ] Mobile app
+- [ ] Cloud synchronization
+- [ ] Multi-user support
+- [ ] Real-time collaboration
+- [ ] Task templates
+- [ ] Time tracking integration
+- [ ] Reminder/notification system
+- [ ] API for third-party integrations
+
+TECHNICAL DEBT:
+- [ ] Refactor task.update_task() (too long)
+- [ ] Add type hints for better code clarity
+- [ ] Create base classes for cleaner inheritance
+- [ ] Implement logging system
+- [ ] Add configuration management
+- [ ] Create test suite
+
+================================================================================
+12. KNOWN ISSUES & LIMITATIONS
+================================================================================
+
+KNOWN BUGS:
+1. BUG: taskStatus functions don't initialize 'found' variable
+   - Affects: all_undone_task(), all_task_inprogress(), done_task()
+   - Symptom: UnboundLocalError if no tasks match filter
+   - Workaround: Initialize found = False before loop
+   - Fix: Add found = False at function start
+
+2. BUG: sub_menu() function never called
+   - Affects: main.py
+   - Symptom: Function defined but never used
+   - Impact: No functional impact
+   - Fix: Remove unused function or implement in future version
+
+3. BUG: Spaces in input parsing
+   - Affects: main.py line 33
+   - Code: user_prompt = input('>>> ') .lower() .strip()
+   - Issue: Space before .lower() and .strip() - not a syntax error but style issue
+   - Fix: Remove spaces: .lower().strip()
+
+LIMITATIONS BY DESIGN:
+1. Single file storage (not suitable for large data)
+2. Linear search for task lookup (scales O(n))
+3. Full file rewrite on every modification
+4. No authentication/security
+5. Single-user only
+6. No concurrent access handling
+7. Task IDs are sequential and change on delete
+8. Case-sensitive status validation (despite case-insensitive input)
+
+LIMITATIONS THAT SHOULD BE ADDRESSED:
+1. No logging - hard to debug issues
+2. No input validation - accepts empty strings
+3. No transaction support - data loss possible on crash
+4. Limited error messages - users don't know what went wrong
+5. No backup functionality - single point of failure
+6. No undo/redo functionality
+7. No task versioning/history
+
+PLATFORM-SPECIFIC ISSUES:
+1. Windows: Path separators might cause issues (using pathlib solves this)
+2. Linux/Mac: Unicode handling may vary
+3. All: No locale-specific date formatting
+
+PERFORMANCE LIMITATIONS:
+- Not suitable for > 10,000 tasks
+- Response time increases linearly with task count
+- Memory usage proportional to file size
+- No caching of frequently accessed data
+
+================================================================================
+END OF DOCUMENTATION
+================================================================================
+
+For more information:
+- README.md: User-facing features and usage
+- HOW_TO_RUN.md: Quick start guide
+- Source code: Well-commented Python files
+
+Document Version: 1.0
+Last Updated: June 2, 2026
+Next Review: When significant changes are made
