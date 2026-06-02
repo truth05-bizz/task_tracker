@@ -10,8 +10,10 @@ This repository documents my journey from planning a project to building a modul
 
 ### Task Tracker v1
 
+#### Project URL
 [https://github.com/truth05-bizz/task_tracker/blob/main/Task_Tracker%20v1/main.py]
 
+#### Description
 The first version of the project.
 
 This version was primarily used as a planning and development guide. It contains the initial project structure, ideas, and function breakdowns that helped define the requirements for the application.
@@ -26,8 +28,11 @@ Its purpose was to answer questions such as:
 
 ### Task Tracker v2
 
+#### Project URL
 [https://github.com/truth05-bizz/task_tracker/tree/main/Task_Trackerv2]
 
+
+#### Description
 The main implementation of the project.
 
 Version 2 transforms the original plan into a working application and introduces a more modular architecture by separating responsibilities across multiple Python modules.
