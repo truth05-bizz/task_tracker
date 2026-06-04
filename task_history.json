@@ -1,50 +1,10 @@
 [
     {
-        "title": "Git/Github",
+        "title": "code",
         "id": 1,
-        "description": "learning git and github to add to my tech skills",
-        "status": "pending",
-        "createdAt": "Mon May 18 13:18:56 2026",
-        "updated": "Sun May 24 21:33:04 2026"
-    },
-    {
-        "title": "learning python",
-        "id": 2,
-        "description": "python learning",
-        "status": "done",
-        "createdAt": "Mon May 18 13:25:17 2026",
-        "updated": "Fri May 22 21:43:05 2026"
-    },
-    {
-        "title": "reading",
-        "id": 3,
-        "description": "complete the book the unstoppable business by yemi sonaike",
+        "description": "learning how to code in python",
         "status": "in progress",
-        "createdAt": "Sun May 24 21:25:18 2026",
-        "updated": "Sun May 31 16:35:42 2026"
-    },
-    {
-        "title": "fix a bug",
-        "id": 4,
-        "description": "done keeps printing on my terminal when the first input for 'add task' is inputted. and the 'task id' is a mess it does not update if a task is remove leaving an incorrect 'Task id'",
-        "status": "done",
-        "createdAt": "Wed May 27 20:31:14 2026",
-        "updated": "Thu May 28 21:23:41 2026"
-    },
-    {
-        "title": "coding",
-        "id": 5,
-        "description": "code at least 30 min a day",
-        "status": "in progress",
-        "createdAt": "Wed May 27 20:35:29 2026",
-        "updated": "Sun May 31 16:31:36 2026"
-    },
-    {
-        "title": "drawing",
-        "id": 6,
-        "description": "learning how to draw",
-        "status": "pending",
-        "createdAt": "Wed May 27 20:37:18 2026",
-        "updated": null
+        "createdAt": "Thu Jun  4 21:08:32 2026",
+        "updated": "Thu Jun  4 21:27:40 2026"
     }
 ]

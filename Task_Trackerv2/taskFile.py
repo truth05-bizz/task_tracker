@@ -7,3 +7,7 @@ def file_path():
 def json_file():
     file_name = 'task_history.json'
     return file_name
+
+def json_userDetails():
+    file_name = 'user_details.json'
+    return file_name

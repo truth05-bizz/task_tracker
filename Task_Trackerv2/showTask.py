@@ -1,5 +1,8 @@
 import json
 import taskUtilities
+import taskFile
+
+
 
 
 def all_task():
@@ -28,7 +31,7 @@ def show_task_title():
     print('------TASK LIST-------')
     print()
 
-    task_data = taskUtilities.read_file()
+    task_data = taskUtilities.read_file(taskFile.file_path())
 
     # print(task_data) - for debugging
     # print(type(task_data)) - for debugging

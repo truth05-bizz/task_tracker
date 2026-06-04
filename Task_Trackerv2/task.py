@@ -11,7 +11,7 @@ file_name = taskFile.json_file()
 def add_task():
 
     task_name = input('Enter task: ')
-    task_id = len(taskUtilities.read_file()) +1
+    task_id = len(taskUtilities.read_file(taskFile.file_path())) +1
     task_description = input('Description: ')
     task_status = taskStatus.get_status()
     task_createdAT = datetime.datetime.now()
@@ -27,19 +27,18 @@ def add_task():
     }
 
 
-    task_data = taskUtilities.read_file()
+    task_data = taskUtilities.read_file(taskFile.file_path())
 
     task_data.append(new_task)
 
-    with open(file_name, 'w') as f:
-        json.dump(task_data, f, indent=4)
+    taskUtilities.write_to_file(task_data, taskFile.json_file())
 
     print('Task added.')
 
 
 def update_task():
     lst_task = showTask.show_task_title()
-    task_data = taskUtilities.read_file()
+    task_data = taskUtilities.read_file(taskFile.file_path())
 
     print()
     user_prompt = input('Enter a task to update: ') .lower() .strip()
@@ -78,12 +77,12 @@ def update_task():
                 data['description'] = description_update
             data['updated'] = date_updated.strftime('%c')
 
-    taskUtilities.write_to_file(task_data)
+    taskUtilities.write_to_file(task_data, taskFile.json_file())
         
     print('file updated successfully')
 
 def delete_task():
-    task_data = taskUtilities.read_file()
+    task_data = taskUtilities.read_file(taskFile.file_path())
     
     # show task list 
     showTask.show_task_title()
