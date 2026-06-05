@@ -1,9 +1,10 @@
 [
     {
-        "user_fname": "Divine",
-        "user_lname": "Okacha",
+        "user_fname": "divine",
+        "user_lname": "okacha",
         "user_name": "truth",
-        "user_gmail": "truth@gamil.com",
-        "user_password1": "qwer123"
+        "user_gmail": "truth@gmail.com",
+        "user_password": "qwer123",
+        "unique_id": "36266aIZ"
     }
 ]

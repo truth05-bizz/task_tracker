@@ -4,6 +4,8 @@ import json
 import taskFile
 from pathlib import Path
 import taskFile
+import random
+import string
 
 def read_file(file='Default'):
     json_filename = Path(file)
@@ -64,6 +66,18 @@ def formatted_task_data(data):
     print('--------------------------------------')
     print()
 
+def generate_id():
+    lst_id = [random.randint(0, 9) for _ in range(1, 6)] # in list format
+    
+    # covert list numbers to integer
+    id = int(''.join(map(str, lst_id)))
 
+    # creating a random string
+    unique_letters = ''.join(random.sample(string.ascii_letters, k=3))
+
+    # combine both numbers and strings
+    unique_id = str(id) + unique_letters
+    
+    return unique_id
 
 
