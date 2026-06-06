@@ -6,5 +6,13 @@
         "user_gmail": "truth@gmail.com",
         "user_password": "qwer123",
         "unique_id": "36266aIZ"
+    },
+    {
+        "user_fname": "john",
+        "user_lname": "bull",
+        "user_name": "mark",
+        "user_gmail": "mark@gmail.com",
+        "user_password": "asdf123",
+        "unique_id": "95393kDF"
     }
 ]

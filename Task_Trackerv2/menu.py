@@ -17,7 +17,7 @@ import taskStatus
 file_name = taskFile.json_file()
 file_path = taskFile.file_path()
 
-def main_menu():
+def Menu():
     # program (task tracker), navigation menu
     print('Welcome to Task Tracker v2')
     print('----------MENU----------')
@@ -58,7 +58,7 @@ def sub_menu():
 
 def main():
     while True:
-        if not main_menu():
+        if not Menu():
             print('Goodbye!')
             break
 

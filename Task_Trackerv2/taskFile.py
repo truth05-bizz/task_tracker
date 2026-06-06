@@ -11,3 +11,7 @@ def json_file():
 def json_userDetails():
     file_name = 'user_details.json'
     return file_name
+
+def json_user_log():
+    file_name = 'user_log.json'
+    return file_name

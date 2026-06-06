@@ -80,4 +80,10 @@ def generate_id():
     
     return unique_id
 
+def active_user():
+    id_log_history = read_file(taskFile.json_user_log())
+    current_id = id_log_history[-1]
+
+    return current_id
+
 
