@@ -3,12 +3,14 @@ import taskLogin
 
 
 def Main():
-    print('-------------------------')
-    print()
-    print('Get Started with Task Tracker.')
     print()
     print('-------------------------')
     print()
+    print('WELCOME TO TASK TRACKER v2')
+    print()
+    print('-------------------------')
+    print()
+    print('< Get Started >')
     print('-----SIGN UP/SIGN IN-----')
     user_prompt = input('>>> ') .lower()  .strip()
 

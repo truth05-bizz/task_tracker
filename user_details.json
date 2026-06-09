@@ -14,5 +14,13 @@
         "user_gmail": "mark@gmail.com",
         "user_password": "asdf123",
         "unique_id": "95393kDF"
+    },
+    {
+        "user_fname": "Emma",
+        "user_lname": "Asu",
+        "user_name": "Emmy",
+        "user_gmail": "emmy@gmail.com",
+        "user_password": "emmy123",
+        "unique_id": "71190Sha"
     }
 ]

@@ -49,14 +49,13 @@ def sign_in():
             active_id.append(user_id)
             #write to file
             taskUtilities.write_to_file(active_id, taskFile.json_user_log())
-            menu.Menu()
+            menu.main()
             break
 
 
     else:
         print('Wrong credentials.')
 
-    return
 
 
 def sign_out():

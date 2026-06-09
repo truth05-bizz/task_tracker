@@ -19,7 +19,6 @@ file_path = taskFile.file_path()
 
 def Menu():
     # program (task tracker), navigation menu
-    print('Welcome to Task Tracker v2')
     print('----------MENU----------')
     print()
     print('- Show all task.')

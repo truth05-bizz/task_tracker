@@ -5,6 +5,52 @@
         "description": "learning how to code in python",
         "status": "in progress",
         "createdAt": "Thu Jun  4 21:08:32 2026",
-        "updated": "Thu Jun  4 21:27:40 2026"
+        "updated": "Thu Jun  4 21:27:40 2026",
+        "task_acc_id": "95393kDF"
+    },
+    {
+        "title": "Regex",
+        "id": 2,
+        "description": "Learning regular expressions (Regex)",
+        "status": "pending",
+        "createdAt": "Sun Jun  7 08:55:33 2026",
+        "updated": null,
+        "task_acc_id": "36266aIZ"
+    },
+    {
+        "title": "Lambda",
+        "id": 3,
+        "description": "using lambda function in python code",
+        "status": "in progress",
+        "createdAt": "Sun Jun  7 09:04:39 2026",
+        "updated": null,
+        "task_acc_id": "36266aIZ"
+    },
+    {
+        "title": "study",
+        "id": 4,
+        "description": "move to the next sub topic in roadmap.sh",
+        "status": "in progress",
+        "createdAt": "Tue Jun  9 15:13:39 2026",
+        "updated": "Tue Jun  9 20:15:45 2026",
+        "task_acc_id": "71190Sha"
+    },
+    {
+        "title": "task tracker mvp",
+        "id": 5,
+        "description": "debug and finalize task tracker, making sure all features are working ",
+        "status": "in progress",
+        "createdAt": "Tue Jun  9 20:28:57 2026",
+        "updated": "Tue Jun  9 20:29:57 2026",
+        "task_acc_id": "71190Sha"
+    },
+    {
+        "title": "study",
+        "id": 6,
+        "description": "reading the unstopable business",
+        "status": "in progress",
+        "createdAt": "Tue Jun  9 20:34:22 2026",
+        "updated": null,
+        "task_acc_id": "36266aIZ"
     }
 ]
