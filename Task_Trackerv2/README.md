@@ -4,7 +4,7 @@
 
 **Task Tracker v2** is a command-line task management application built with Python. It provides a simple yet effective way to manage your daily tasks with features like creating, updating, deleting, and filtering tasks by status.
 
-This version represents the main implementation of the Task Tracker project, featuring a modular architecture that separates concerns across multiple Python modules for better maintainability and scalability.
+This version represents the main implementation of the Task Tracker project, featuring a modular architecture that separates concerns across multiple Python modules for better maintainability and scalability. Now with **multi-user support**, each user can manage their own tasks securely.
 
 ---
 
@@ -12,10 +12,11 @@ This version represents the main implementation of the Task Tracker project, fea
 
 ✅ **Core Task Management**
 - Create new tasks with titles and descriptions
-- Update existing tasks (title, description, status)
-- Delete tasks with confirmation
+- Update existing tasks (title, description, status) - user-specific
+- Delete tasks with confirmation - user-specific
 - View all tasks or filter by status
 - Automatic task ID generation
+- User-specific task filtering
 
 ✅ **Task Status Management**
 - Track tasks as **Pending**, **In Progress**, or **Done**
@@ -24,17 +25,29 @@ This version represents the main implementation of the Task Tracker project, fea
 - View all in-progress tasks
 - View all completed tasks
 
+✅ **User Authentication**
+- User registration (sign up)
+- User login (sign in)
+- Unique user identification
+- Session management
+- User credentials stored securely
+
 ✅ **Data Persistence**
 - All tasks stored in JSON format (`task_history.json`)
+- User accounts stored in `user_details.json`
+- Session logs in `user_log.json`
 - Automatic file creation on first run
 - Persistent data between sessions
 - Task timestamps (created, updated)
+- Multi-user data isolation
 
 ✅ **User Experience**
 - Interactive command-line menu
 - User-friendly task details display
 - Confirmation prompts for destructive actions
 - Simple and intuitive interface
+- Sign up/Sign in system
+- Welcome message with username
 
 ---
 
@@ -48,7 +61,10 @@ Task_Trackerv2/
 ├── taskStatus.py              # Task status management
 ├── taskFile.py                # File path configuration
 ├── taskUtilities.py           # Utility functions (read/write)
+├── taskLogin.py               # User authentication system
 ├── task_history.json          # Task data storage
+├── user_details.json          # User account data
+├── user_log.json              # User session log
 ├── README.md                  # This file
 ├── HOW_TO_RUN.md              # Quick start guide
 └── documentation.txt          # Technical documentation
@@ -63,27 +79,34 @@ Task_Trackerv2/
 - Implements the main menu loop
 - Handles user input and routes to appropriate modules
 - Manages the overall program flow
+- Displays welcome message with current user info
 
 ### **task.py**
 - **add_task()** - Creates a new task with title, description, and status
-- **update_task()** - Modifies an existing task's properties
-- **delete_task()** - Removes a task with user confirmation
+- **update_task()** - Modifies an existing task's properties (user-specific)
+- **delete_task()** - Removes a task with user confirmation (user-specific)
 - Handles the CRUD (Create, Read, Update, Delete) operations
+- Associates tasks with the current logged-in user
 
 ### **showTask.py**
-- **all_task()** - Displays all tasks and allows viewing task details
-- **show_task_title()** - Lists all task titles
+- **all_task()** - Displays all tasks for current user and allows viewing task details
+- **show_task_title()** - Lists all task titles filtered by current user
+- **validate_id()** - Checks if current user has any tasks
 - Provides a readable interface for viewing tasks
+- Filters tasks by user ID
 
 ### **taskStatus.py**
-- **all_undone_task()** - Shows tasks that are pending or in progress
-- **all_task_inprogress()** - Filters and displays in-progress tasks
-- **done_task()** - Shows all completed tasks
+- **all_undone_task()** - Shows user's tasks that are pending or in progress
+- **all_task_inprogress()** - Filters and displays user's in-progress tasks
+- **done_task()** - Shows user's completed tasks
 - **get_status()** - Validates and returns user-selected task status
+- All status functions filter by current user
 
 ### **taskFile.py**
 - **file_path()** - Returns the path to the JSON file
 - **json_file()** - Returns the filename
+- **json_user_details()** - Returns user details filename
+- **json_user_log()** - Returns user log filename
 - Centralizes file configuration
 
 ### **taskUtilities.py**
@@ -92,6 +115,14 @@ Task_Trackerv2/
 - **task_id_settings()** - Manages and reassigns task IDs
 - **formatted_task_data()** - Displays task details in a user-friendly format
 - **empty_json()** - Checks if task file is empty
+- **active_user()** - Returns the current logged-in user's ID
+
+### **taskLogin.py**
+- **sign_up()** - User registration with unique ID generation
+- **sign_in()** - User login with credentials verification
+- **sign_out()** - User logout functionality
+- Manages user authentication and session management
+- Stores user credentials and generates unique user IDs
 
 ---
 
@@ -128,12 +159,46 @@ Task_Trackerv2/
 
 ## Usage Guide
 
-### Main Menu Options
+### Authentication Flow
 
-When you run the application, you'll see the main menu:
+When you first run the application, you'll need to sign up or sign in:
 
 ```
-Welcome to Task Tracker v2
+-------------------------
+
+WELCOME TO TASK TRACKER v2
+
+-------------------------
+
+< Get Started >
+-----SIGN UP/SIGN IN-----
+>>> sign up
+```
+
+#### Sign Up
+```
+>>> sign up
+Enter first name: John
+Enter last name: Doe
+Enter username: johndoe
+Enter email: john@example.com
+Enter password: securepass123
+Account created successfully!
+```
+
+#### Sign In
+```
+>>> sign in
+Enter username: johndoe
+Enter password: securepass123
+Login successful!
+```
+
+### Main Menu Options
+
+Once authenticated, you'll see the main menu:
+
+```
 ----------MENU----------
 
 - Show all task.
@@ -143,6 +208,7 @@ Welcome to Task Tracker v2
 - undone task. 
 - task in progress. 
 - done task.
+- sign out.
 
 >>>
 ```
@@ -151,13 +217,14 @@ Welcome to Task Tracker v2
 
 | Command | Description |
 |---------|-------------|
-| `show all task` | Display all tasks and view details |
+| `show all task` | Display all your tasks and view details |
 | `add task` | Create a new task |
 | `update task` | Modify an existing task |
 | `delete task` | Remove a task (with confirmation) |
 | `undone task` | Show pending and in-progress tasks |
 | `task in progress` | Show tasks currently being worked on |
 | `done task` | Show completed tasks |
+| `sign out` | Logout and return to authentication screen |
 | `quit` or `exit` | Exit the application |
 
 ### Step-by-Step Examples
@@ -257,7 +324,23 @@ Each task is stored as a JSON object with the following properties:
   "description": "Detailed task description",
   "status": "pending",
   "createdAt": "Mon Jun  2 14:30:45 2026",
-  "updated": "Mon Jun  2 14:35:12 2026"
+  "updated": "Mon Jun  2 14:35:12 2026",
+  "task_acc_id": "36266aIZ"
+}
+```
+
+### User Object Structure
+
+User accounts are stored with the following structure:
+
+```json
+{
+  "user_fname": "John",
+  "user_lname": "Doe",
+  "user_name": "johndoe",
+  "user_gmail": "john@example.com",
+  "user_password": "securepass123",
+  "unique_id": "36266aIZ"
 }
 ```
 
@@ -277,7 +360,8 @@ Each task is stored as a JSON object with the following properties:
         "description": "Finish the quarterly report",
         "status": "in progress",
         "createdAt": "Mon Jun  2 14:30:45 2026",
-        "updated": "Mon Jun  2 14:35:12 2026"
+        "updated": "Mon Jun  2 14:35:12 2026",
+        "task_acc_id": "36266aIZ"
     },
     {
         "title": "Buy groceries",
@@ -285,10 +369,28 @@ Each task is stored as a JSON object with the following properties:
         "description": "Milk, eggs, bread",
         "status": "pending",
         "createdAt": "Mon Jun  2 14:31:20 2026",
-        "updated": null
+        "updated": null,
+        "task_acc_id": "95393kDF"
     }
 ]
 ```
+
+---
+
+## Multi-User Data Isolation
+
+### Key Features:
+- Each user has a unique ID (`task_acc_id`) assigned at registration
+- Tasks are associated with the user who created them
+- When viewing/managing tasks, the application filters by current user's ID
+- Users cannot see, modify, or delete other users' tasks
+- Session management tracks which user is currently logged in
+
+### How It Works:
+1. User signs in and their ID is stored in `user_log.json`
+2. The `active_user()` function retrieves the current user's ID
+3. All task operations filter by this user ID
+4. Tasks are tagged with `task_acc_id` upon creation
 
 ---
 
@@ -299,20 +401,28 @@ Each task is stored as a JSON object with the following properties:
 **Solution:** Make sure you're in the `Task_Trackerv2` directory before running `python main.py`
 
 ### Issue: `FileNotFoundError: [Errno 2] No such file or directory`
-**Cause:** The script is looking for `task_history.json` in the wrong location  
-**Solution:** Run the script from the `Task_Trackerv2` directory. The JSON file will be created automatically.
+**Cause:** The script is looking for JSON files in the wrong location  
+**Solution:** Run the script from the `Task_Trackerv2` directory. The JSON files will be created automatically.
 
 ### Issue: Menu not responding to input
 **Cause:** Case sensitivity or extra spaces  
 **Solution:** Input should be lowercase (e.g., `add task`, not `Add Task`). Extra spaces are automatically stripped.
 
 ### Issue: `json.JSONDecodeError`
-**Cause:** The `task_history.json` file is corrupted  
-**Solution:** Delete the corrupted file and restart the application. A fresh file will be created.
+**Cause:** A JSON file is corrupted  
+**Solution:** Delete the corrupted file(s) and restart the application. Fresh files will be created.
 
 ### Issue: Task status not accepted
 **Cause:** Incorrect status format  
 **Solution:** Use exactly one of these statuses: `pending`, `in progress`, or `done` (lowercase, with space for "in progress")
+
+### Issue: No tasks appear after sign in
+**Cause:** You're viewing another user's tasks or account is new  
+**Solution:** This is normal for new accounts. Create a task with `add task` to start building your task list.
+
+### Issue: Login failed
+**Cause:** Incorrect username or password  
+**Solution:** Check your credentials carefully. Create a new account with `sign up` if you don't have one.
 
 ---
 
@@ -322,9 +432,10 @@ Each task is stored as a JSON object with the following properties:
 - No task categories or tags
 - No recurring tasks
 - No due dates (only creation and update timestamps)
-- Single-user application (no multi-user support)
-- No task priority levels
+- Passwords stored in plain text (not encrypted)
+- No email verification for sign up
 - Data stored locally (no cloud sync)
+- No task priority levels
 
 ---
 
@@ -332,6 +443,8 @@ Each task is stored as a JSON object with the following properties:
 
 Planned features for future versions:
 
+- [ ] Password encryption
+- [ ] Email verification
 - [ ] Task priority levels (Low, Medium, High)
 - [ ] Task due dates and reminders
 - [ ] Task categories/tags
@@ -343,7 +456,7 @@ Planned features for future versions:
 - [ ] Recurring tasks
 - [ ] Database backend (SQLite, MongoDB)
 - [ ] GUI interface
-- [ ] Multi-user support
+- [ ] Password recovery system
 
 ---
 
@@ -354,6 +467,7 @@ Planned features for future versions:
 - **Pathlib** - File path handling
 - **Datetime** - Timestamp management
 - **Modular Programming** - Clean code architecture
+- **User Authentication** - Session management
 
 ---
 
@@ -370,6 +484,9 @@ This project helped demonstrate:
 - ✓ Read → Modify → Write workflow
 - ✓ User input validation
 - ✓ Application state management
+- ✓ User authentication and session management
+- ✓ Multi-user data isolation and privacy
+- ✓ Unique ID generation for user identification
 
 ---
 
@@ -377,7 +494,7 @@ This project helped demonstrate:
 
 **Status:** Active Development 🚀
 
-Task Tracker v2 is the primary implementation of the Task Tracker project and serves as a practical learning project for building maintainable Python applications.
+Task Tracker v2 is the primary implementation of the Task Tracker project and serves as a practical learning project for building maintainable Python applications with multi-user support.
 
 ---
 
@@ -404,4 +521,4 @@ If you encounter any issues or have suggestions for improvement, feel free to:
 
 ---
 
-**Last Updated:** June 2, 2026
+**Last Updated:** June 9, 2026
