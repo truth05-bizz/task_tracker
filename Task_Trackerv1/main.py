@@ -60,4 +60,20 @@ print(f"Task id: {to_do_list[0]['id']}")
 print(f"Task description: {to_do_list[0]['description']}")
 print(f"Task status: {to_do_list[0]['status']}")
 
+"""
+NOTE 
 
+This is task tracker v1.
+
+AS you can see this version works, but it is not clean 
+and there are some of the requirement that are not yet in 
+place or can be done but only hard codded, hence theis version 
+works but it is not user friendly
+
+- what this version can do 
+1. create a new task but does not have memory of it once close
+2. can delete a task using the 'to_do_list.remove(index)
+3. List all task in a nested list (Dictionary inside a list)
+4. can't list all task in progress because here we need a coding and loop through all available task
+
+"""
