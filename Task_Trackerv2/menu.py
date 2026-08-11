@@ -17,48 +17,48 @@ import taskStatus
 file_name = taskFile.json_file()
 file_path = taskFile.file_path()
 
+
 def Menu():
     # program (task tracker), navigation menu
-    print('----------MENU----------')
+    print("----------MENU----------")
     print()
-    print('- Show all task.')
-    print('- Add task. ')
-    print('- update task. ')
-    print('- delete task. ')
-    print('- undone task. ')
-    print('- task in progress. ')
+    print("- Show all task.")
+    print("- Add task. ")
+    print("- update task. ")
+    print("- delete task. ")
+    print("- undone task. ")
+    print("- task in progress. ")
     print()
 
-    user_prompt = input('>>> ') .lower() .strip()
-    if user_prompt == 'show all task':
-        showTask.all_task()       
-    elif user_prompt == 'add task':
+    user_prompt = input(">>> ").lower().strip()
+    if user_prompt == "show all task":
+        showTask.all_task()
+    elif user_prompt == "add task":
         task.add_task()
-    elif user_prompt == 'update task':
+    elif user_prompt == "update task":
         task.update_task()
-    elif user_prompt == 'undone task':
+    elif user_prompt == "undone task":
         taskStatus.all_undone_task()
-    elif user_prompt == 'task in progress':
+    elif user_prompt == "task in progress":
         taskStatus.all_task_inprogress()
-    elif user_prompt == 'done task':
+    elif user_prompt == "done task":
         taskStatus.done_task()
-    elif user_prompt == 'delete task':
+    elif user_prompt == "delete task":
         task.delete_task()
-    elif user_prompt in ('quit', 'exit'):
+    elif user_prompt in ("quit", "exit"):
         return False
-    
+
     return True
 
+
 def sub_menu():
-    user_promt = input('Go back to menu(y/n): ').strip() .lower()
-    if user_promt == 'y':
+    user_promt = input("Go back to menu(y/n): ").strip().lower()
+    if user_promt == "y":
         pass
 
 
 def main():
     while True:
         if not Menu():
-            print('Goodbye!')
+            print("Goodbye!")
             break
-
-
